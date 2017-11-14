@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta content="text/html"/>
+    <meta name="context-path" id="path" th:content="@{/}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>文档</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/huo.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/jquery.step.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/css/liu_content.css}"/>
+    <style>
+           table{
+                font-size:30px;
+           }
+           input[type="submit"]:hover{
+                background-color:#ccc;
+           }
+           .customs1>ul>li>span{
+                width:200px;
+           }
+    </style>
+</head>
+<body class="color">
+<div class="row">
+    <div class="form_box col-lg-12">
+        <form action="" method="post" id="form_customs" name="form_customs"
+              enctype="multipart/form-data">
+            <table border="#fff" cellspacing="" cellpadding="">
+                <tr class="customs_kuang">
+                    <td>
+                        <div class="customs1">
+                            <ul>
+                                <li class="col-md-12">
+                                    <span>委托见证人:</span>
+                                    <input class="a" type="text" id="d" placeholder="委托见证人"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>新律见号:</span>
+                                    <input class="a" type="text" id="b" placeholder="新律见号"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>地上面积:</span>
+                                    <input class="a" type="text" id="f" placeholder="地上面积"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>地下面积:</span>
+                                    <input class="a" type="text" id="g" placeholder="地下面积"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>年:</span>
+                                    <input class="a" type="text" id="h" placeholder="年"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>月:</span>
+                                    <input class="a" type="text" id="i" placeholder="月"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>日:</span>
+                                    <input class="a" type="text" id="j" placeholder="日"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>其它值:</span>
+                                    <input type="button" value="生成其它值" onclick="auto_partm()"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>区:</span>
+                                    <input class="a" type="text" id="k" placeholder="区" readonly="readonly"
+                                           unselectable="on"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>楼号:</span>
+                                    <input class="a" type="text" id="l" placeholder="楼号" readonly="readonly"
+                                           unselectable="on"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>单元:</span>
+                                    <input class="a" type="text" id="m" placeholder="单元" readonly="readonly"
+                                           unselectable="on"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>室号:</span>
+                                    <input class="a" type="text" id="n" placeholder="室号" readonly="readonly"
+                                           unselectable="on"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>委托人(完整版):</span>
+                                    <input class="a" type="text" id="e" placeholder="委托人"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>委托人(精简版):</span>
+                                    <input class="a" type="text" id="p" placeholder="委托人"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <span>婚姻关系:</span>
+                                    <input class="a" type="text" id="o" value=""/>
+                                    <input type="button" onclick="javascript:$('#o').val('户口本、');" value="未婚"/>
+                                    <input type="button" onclick="javascript:$('#o').val('户口本、结婚证、');" value="结婚"/>
+                                    <input type="button" onclick="javascript:$('#o').val('户口本、离婚证、');" value="离婚"/>
+                                </li>
+                                <li class="col-md-12">
+                                    <input type="button" value="保存" style="width:100%;" onclick="click_save()"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="form_box col-lg-6">
+        <table border="#fff" style="width:90%;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>文件名(共计:)
+                    <br/>
+                    <span th:text="${wsize}" style="font-size:30px;color:red;"></span>个(完整版)
+                    <br/>
+                    <span th:text="${jsize}" style="font-size:30px;color:red;"></span>个(精简版)
+                </th>
+                <th>文件位置
+                    <br/>
+                    (完整版)<span th:text="${ww}"></span>
+                    <br/>
+                    (精简版)<span th:text="${jj}"></span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s,i:${list}">
+                <td th:text="${i.count}"></td>
+                <td>
+                    <a th:href="@{/openWord(fileName=${s})}" th:text="${s}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/style/js/js.js}" type="text/javascript" charset="utf-8"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    <!--自动生成其它值-->
+    function auto_partm(){
+        var b = $('#b').val();
+        b = b.trim();
+        if(b=='')
+            alert('先填写新律见号');
+        else{
+            if(b.length != 7)
+                alert('新律见号位数少于7位或超出7位');
+            else{
+                var s=new Array();
+                s[0]="零";
+                s[1]="一";
+                s[2]="二";
+                s[3]="三";
+                s[4]="四";
+                s[5]="五";
+                s[6]="六";
+                s[7]="七";
+                s[8]="八";
+                s[9]="九";
+                var qu = b.substring(0,1);
+                var lou = b.substring(1,2);
+                var dan = b.substring(2,3);
+                var shi = b.substring(3);
+                $('#k').val(s[qu]);
+                $('#l').val(lou);
+                $('#m').val(dan);
+                $('#n').val(shi);
+                alert('其它值生成完毕');
+            }
+        }
+    }
+    <!--save-->
+        function click_save(){
+
+            var jg = '';
+            $('.a').each(function(index,e){
+                var val = $(e).val();
+                var id = $(e).attr('id');
+                jg += id+':'+val+']';
+            })
+            if(jg == ':]'){
+                alert('不能保存为空');
+            }else{
+                var path = /*[[${#httpServletRequest.getScheme()
+					+ "://" + #httpServletRequest.getServerName()
+					+ ":" + #httpServletRequest.getServerPort()
+					+ #httpServletRequest.getContextPath()}]]*/;
+
+				$.ajax({
+                    url:path+"/add",    //请求的url地址
+                    dataType:"json",   //返回格式为json
+                    async:false,//请求是否异步，默认为异步，这也是ajax重要特性
+                    data:{"w":jg,"j":jg,"filename":$('#d').val()},    //参数值
+                    type:"post",   //请求方式
+                    beforeSend:function(){
+                        //请求前的处理
+                    },
+                    success:function(req){
+                        //请求成功时处理
+                        if(req==1){
+                            window.location.href=path+"/index";
+                        }else{
+                            alert('失败');
+                        }
+                    },
+                    complete:function(){
+                        //请求完成的处理
+                    },
+                    error:function(){
+                        //请求出错处理
+                    }
+                });
+            }
+        }
+    /*]]>*/
+</script>
+</body>
+</html>
